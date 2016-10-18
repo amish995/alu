@@ -1,10 +1,24 @@
 module comparator (
-    input clk,  // clock
-    input rst,  // reset
-    output out
+  input alufn[6],
+  input z,
+  input v,
+  input n,
+  output comp[8]
   ) {
 
-  always {
-    out = 0;
+  always { 
+
+    comp = 0;
+  
+    case (alufn[2:1]) {
+    
+    01:
+        comp[0] = z;
+    10:
+        comp[0] = n^v;
+    11: 
+        comp[0] = z | (n^v);
+      
+>>>>>>> adder,shifter and other stuff
   }
 }

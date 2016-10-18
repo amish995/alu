@@ -5,20 +5,22 @@ module adder (
     input alufn [6],
     output v,
     output n,
-    output z,
+    output z
   ) {
-  sig sum[8];
+  
+  sig sum[9]; //9 bit to account for overflow and prevent exceptions being thrown for no reason
+  
   always {
   
     s = 0;
     sum = 0;
     
     //Pure switch cases for the adder circuit
-    case(alufn[0]) {
-       0: 
+    case(alufn[1:0]) {
+       00: 
         s = a+b;
         sum = a+b;
-       1: 
+       10: 
         s = a-b;
         sum = a-b;
     }
@@ -28,5 +30,5 @@ module adder (
     v = ( a[7] & b[7] & (~sum[7])) | 
           ((~a[7])&(~b[7])&sum[7]);
     z = ~|sum;
-    
+>>>>>>> adder,shifter and other stuff
 }
