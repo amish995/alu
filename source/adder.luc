@@ -1,0 +1,32 @@
+module adder (
+    input a[8],
+    input b[8],
+    output s[8],
+    input alufn [6],
+    output v,
+    output n,
+    output z,
+  ) {
+  sig sum[8];
+  always {
+  
+    s = 0;
+    sum = 0;
+    
+    //Pure switch cases for the adder circuit
+    case(alufn[0]) {
+       0: 
+        s = a+b;
+        sum = a+b;
+       1: 
+        s = a-b;
+        sum = a-b;
+    }
+    
+    //Z,V and N for the adder.
+    n = sum[7];
+    v = ( a[7] & b[7] & (~sum[7])) | 
+          ((~a[7])&(~b[7])&sum[7]);
+    z = ~|sum;
+    
+}
