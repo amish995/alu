@@ -1,0 +1,29 @@
+module multiplier (
+    input a[8],
+    input b[8],
+    output mul[8],
+    input alufn[6],
+    output z,
+    output v,
+    output n
+  ) {
+    sig m[9];
+  always {
+    m = 0; mul = 0;
+    
+    case(alufn[3:2]) {
+      10:
+        mul = a*b;
+        m = a*b;
+    }
+    
+    
+    n = m[7];
+    
+    v = ( a[7] & b[7] & (~m[7])) | 
+          ((~a[7])&(~b[7])&m[7]);
+    
+    z = ~|m;
+  
+ }
+}

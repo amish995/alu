@@ -1,0 +1,99 @@
+module mojo_top (
+
+    input clk,  // clock
+    input rst,  // reset
+    output io_led[24],
+    input io_dip[8]
+        
+  ) {
+  
+  
+  adder add;
+  shifter shift;
+  comparator comp;
+  boolean bool;
+  
+  
+  dff counter[34](.clk(clk), .rst(rst));    // size of counter can be changed to change the speed
+  dff counter2[34](.clk(clk),.rst(rst));
+  
+  always {
+  
+    // Next most significant 4 bits used for output A
+    // Most significant 4 bits used for out B    
+    
+    
+    add.a = 0;
+    add.b = 0;
+    add.alufn = 0;
+    
+    shift.a = 0;
+    shift.b = 0;
+    shift.alufn = 0;
+    
+    comp.alufn = 0;
+    comp.v = 0;
+    comp.z = 0;
+    comp.n = 0;
+    
+    bool.a = 0;
+    bool.b = 0;
+    bool.alufn = 0;
+    
+    io_led = 0;
+    
+    case(io_dip[7:6]) {
+      2b00:
+      
+        add.a = counter.q[33:26]; 
+        add.b = counter2.q[33:26];
+        add.alufn = io_dip[7:2];
+        
+        io_led[15:8] = add.s;
+        io_led[7] = add.z;
+        io_led[6] = add.v;
+        io_led[5] = add.n;
+        
+      2b01:
+      
+        bool.a = counter.q[33:26];
+        bool.b = counter2.q[33:26];
+        bool.alufn = io_dip[7:2];
+        
+        io_led[15:8] = bool.bool;
+        
+        
+      2b10: 
+      
+        shift.a = counter.q[33:26];
+        shift.b = counter2.q[33:26];
+        shift.alufn = io_dip[7:2];
+        
+        io_led[15:8] = shift.shift;
+        
+      2b11:
+      
+        //Adder specific logic   
+        add.a = counter.q[33:26];
+        add.b = counter2.q[33:26];
+        add.alufn = io_dip[7:2];
+        
+        io_led[15:8] = add.s;
+        io_led[7] = add.z;
+        io_led[6] = add.v;
+        io_led[5] = add.n;
+        
+        //comparator specific logic
+        comp.z = add.z;
+        comp.v = add.v;
+        comp.n = add.n;
+        comp.alufn = io_dip[7:2];
+        io_led[23:16] = comp.comp;
+        
+      
+    }
+    
+    counter.d = counter.q + 1;
+    counter2.d = counter2.q + 2;
+  }
+}
