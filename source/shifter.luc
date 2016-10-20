@@ -15,7 +15,6 @@ module shifter (
         shift = a >> b[2:0]; //Perform right shift
       2b11: 
         shift = $signed(a) >> b[2:0]; //Perform signed right shift
-        
   }
  }
 }

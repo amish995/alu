@@ -16,11 +16,14 @@ module adder (
     sum = 0;
     
     //Pure switch cases for the adder circuit
-    case(alufn[1:0]) {
-       2b00: 
+    case(alufn) {
+       6b000000:
         s = a+b;
         sum = a+b;
-       2b01: 
+       6b000010:
+        s = a*b;
+        sum = a*b;
+       default:
         s = a-b;
         sum = a-b;
     }
