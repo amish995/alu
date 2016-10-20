@@ -12,13 +12,15 @@ module comparator (
   
     case (alufn[2:1]) {
     
-    01:
+    b01:
         comp[0] = z;
-    10:
+    2b10:
         comp[0] = n^v;
-    11: 
+    2b11: 
         comp[0] = z | (n^v);
+     default:
+        comp[0] = 0;
       
->>>>>>> adder,shifter and other stuff
   }
-}
+ }
+}  

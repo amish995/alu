@@ -1,0 +1,29 @@
+module boolean (
+    input a[8],
+    input b[8],    
+    input alufn[6],
+    output bool[8]
+
+  ) {
+ var i;
+  
+  always {
+  bool = 0;
+
+    for (i=0; i<8; i++) {
+    
+      case(alufn[3:0]) {
+      
+      1000: bool[i] = a[i] & b[i];
+      
+      1110: bool[i] = a[i] | b[i];
+      
+      0110: bool[i] = a[i] ^ b[i];
+      
+      1010: bool[i] = a[i];   
+      
+      }    
+    } 
+  }
+}
+

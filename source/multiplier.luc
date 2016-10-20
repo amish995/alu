@@ -15,9 +15,6 @@ module multiplier (
       10:
         mul = a*b;
         m = a*b;
-      11:
-        mul = a/b;
-        m = a/b;
     }
     
     
@@ -28,4 +25,5 @@ module multiplier (
     
     z = ~|m;
   
+ }
 }

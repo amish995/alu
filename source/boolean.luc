@@ -14,16 +14,15 @@ module boolean (
     
       case(alufn[3:0]) {
       
-      1000: bool[i] = a[i] & b[i];
+      4b1000: bool[i] = a[i] & b[i];
       
-      1110: bool[i] = a[i] | b[i];
+      4b1110: bool[i] = a[i] | b[i];
       
-      0110: bool[i] = a[i] ^ b[i];
+      4b0110: bool[i] = a[i] ^ b[i];
       
-      1010: bool[i] = a[i];   
+      4b1010: bool[i] = a[i];   
       
       }    
     } 
   }
 }
-

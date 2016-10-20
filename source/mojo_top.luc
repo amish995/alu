@@ -10,7 +10,10 @@ module mojo_top (
     output spi_channel [4], // AVR general purpose pins (used by default to select ADC channel)
     input avr_tx,           // AVR TX (FPGA RX)
     output avr_rx,          // AVR RX (FPGA TX)
-    input avr_rx_busy       // AVR RX buffer full
+    input io_dip[24], 
+    output io_led[24]  //A input
+    
+//AluFN contorller
   ) {
   
   sig rst;                  // reset signal
@@ -21,8 +24,92 @@ module mojo_top (
     reset_conditioner reset_cond;
   }
   
+  adder add;
+  shifter shift;
+  comparator comp;
+  boolean bool;
+  
   always {
->>>>>>> adder,shifter and other stuff
+  
+    //23:16 -> as purely A from highest bit to lowest bit
+    //15:8 -> as purely B from highest bit to lowest bit
+    //7:2 -> ALUFN ^^^
+    
+    //<<<<<<<<<<<<<<<<<<<<<<<<< ADDER >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    
+    //Assign A and B as 16 bit a and b inputs, and 6 bit alufn
+    
+    io_led[23:0] = 0;
+    
+    add.a = 0;
+    add.b = 0;
+    add.alufn = 0;
+    
+    shift.a = 0;
+    shift.b = 0;
+    shift.alufn = 0;
+    
+    comp.n = 0;
+    comp.z = 0;
+    comp.v = 0;
+    comp.alufn = 0;
+    
+    bool.alufn = 0;
+    bool.a = 0;
+    bool.b = 0;
+    
+    case(io_dip[7:6]) {
+      2b00:
+      
+        add.a = io_dip[23:16]; 
+        add.b = io_dip[15:8];
+        add.alufn = io_dip[7:2];
+        
+        io_led[15:8] = add.s;
+        io_led[7] = add.z;
+        io_led[6] = add.v;
+        io_led[5] = add.n;
+        
+      2b01:
+      
+        bool.a = io_dip[23:16];
+        bool.b = io_dip[15:8];
+        bool.alufn = io_dip[7:2];
+        
+        io_led[15:8] = bool.bool;
+        
+        
+      2b10: 
+      
+        shift.a = io_dip[23:16];
+        shift.b = io_dip[15:8];
+        shift.alufn = io_dip[7:2];
+        
+        io_led[15:8] = shift.shift;
+        
+      2b11:
+      
+        //Adder specific logic   
+        add.a = io_dip[23:16]; 
+        add.b = io_dip[15:8];
+        add.alufn = io_dip[7:2];
+        
+        io_led[15:8] = add.s;
+        io_led[7] = add.z;
+        io_led[6] = add.v;
+        io_led[5] = add.n;
+        
+        //comparator specific logic
+        comp.z = add.z;
+        comp.v = add.v;
+        comp.n = add.n;
+        comp.alufn = io_dip[7:2];
+        io_led[23:16] = comp.comp;
+        
+      
+    }
+    
+    
     reset_cond.in = ~rst_n; // input raw inverted reset signal
     rst = reset_cond.out;   // conditioned reset
     

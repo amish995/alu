@@ -9,12 +9,13 @@ module shifter (
     shift = a; //Do not shift at all
     case (alufn[1:0]) {
     
-      00:
+      2b00:
         shift = a << b[2:0]; //Perform left shift
-      01:
+      2b01:
         shift = a >> b[2:0]; //Perform right shift
-      11: 
+      2b11: 
         shift = $signed(a) >> b[2:0]; //Perform signed right shift
         
   }
+ }
 }

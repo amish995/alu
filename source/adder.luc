@@ -17,10 +17,10 @@ module adder (
     
     //Pure switch cases for the adder circuit
     case(alufn[1:0]) {
-       00: 
+       2b00: 
         s = a+b;
         sum = a+b;
-       10: 
+       2b01: 
         s = a-b;
         sum = a-b;
     }
@@ -30,5 +30,5 @@ module adder (
     v = ( a[7] & b[7] & (~sum[7])) | 
           ((~a[7])&(~b[7])&sum[7]);
     z = ~|sum;
->>>>>>> adder,shifter and other stuff
+ }
 }
