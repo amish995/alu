@@ -3,7 +3,7 @@ module mojo_top (
     input clk,  // clock
     input rst,  // reset
     
-    /*We assogm the 8 of the LEDs to show the 8 bit output that any component will display
+    /*We assign 8 of the LEDs to show the 8 bit output that any component will display
     as well as Z,V and N and in the case of a comparator, an additional 8 LEDs showing the comparator itself.
     
     We then assign a 6 bit input in the form of IO switches to control the ALUFN*/
