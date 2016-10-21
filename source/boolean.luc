@@ -26,6 +26,7 @@ module boolean (
       
       4b1010: bool[i] = a[i];  //Pass only A for 1010
       
+      4b1011: bool[i] = b[i]; //Pass only B for 1011
       }    
     } 
   }
