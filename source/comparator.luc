@@ -6,21 +6,21 @@ module comparator (
   output comp[8]
   ) {
 
-  always { 
+  always {
 
     comp = 0;
-  
+
     case (alufn[2:1]) {
-    
+    // Switch cases for comparator
     2b01:
         comp[0] = z;
     2b10:
-        comp[0] = n^v;
-    2b11: 
-        comp[0] = z | (n^v);
+        comp[0] = n^v; // N xor V
+    2b11:
+        comp[0] = z | (n^v); // Z OR (N xor V)
     default:
-        comp[0] = 0;
-      
+        comp[0] = 0; // comparator outputs 0 by default
+
   }
  }
-}  
+}
