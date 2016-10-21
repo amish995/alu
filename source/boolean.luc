@@ -20,7 +20,9 @@ module boolean (
 
       4b0110: bool[i] = a[i] ^ b[i]; // XOR Case
 
-      4b1010: bool[i] = a[i]; // Pass A[i] to Output
+      4b1010: bool[i] = a[i]; // Pass a[i] to output
+      
+      4b1011: bool[i] = b[i]; // Pass b[i] to output
 
       }
     }
