@@ -2,27 +2,30 @@ module mojo_top (
 
     input clk,  // clock
     input rst,  // reset
+    
+    /*We assogm the 8 of the LEDs to show the 8 bit output that any component will display
+    as well as Z,V and N and in the case of a comparator, an additional 8 LEDs showing the comparator itself.
+    
+    We then assign a 6 bit input in the form of IO switches to control the ALUFN*/
+       
     output io_led[24],
     input io_dip[8]
         
   ) {
   
-  
+  //Initializing circuit components
   adder add;
   shifter shift;
   comparator comp;
   boolean bool;
   
-  
+  //Double D flip flops for storing the value of A and B
   dff counter[34](.clk(clk), .rst(rst));    // size of counter can be changed to change the speed
   dff counter2[34](.clk(clk),.rst(rst));
   
   always {
   
-    // Next most significant 4 bits used for output A
-    // Most significant 4 bits used for out B    
-    
-    
+    /*Initializing the value of all circuit components to zero*/
     add.a = 0;
     add.b = 0;
     add.alufn = 0;
@@ -42,9 +45,11 @@ module mojo_top (
     
     io_led = 0;
     
+    //Case statement that only cares about the 2 most significant bits, here we assign to each component of the ALU
     case(io_dip[7:6]) {
-      2b00:
+      2b00: 
       
+        //Adder
         add.a = counter.q[33:26]; 
         add.b = counter2.q[33:26];
         add.alufn = io_dip[7:2];
@@ -56,6 +61,7 @@ module mojo_top (
         
       2b01:
       
+        //Boolean specific logic
         bool.a = counter.q[33:26];
         bool.b = counter2.q[33:26];
         bool.alufn = io_dip[7:2];
@@ -65,6 +71,7 @@ module mojo_top (
         
       2b10: 
       
+        //Shifter specific logic
         shift.a = counter.q[33:26];
         shift.b = counter2.q[33:26];
         shift.alufn = io_dip[7:2];
@@ -77,7 +84,7 @@ module mojo_top (
         add.a = counter.q[33:26];
         add.b = counter2.q[33:26];
         add.alufn = io_dip[7:2];
-        
+       
         io_led[15:8] = add.s;
         io_led[7] = add.z;
         io_led[6] = add.v;
@@ -93,6 +100,9 @@ module mojo_top (
       
     }
     
+    /*incrementing both the counters for each A and B, as you can see, one counter is updated by 2,
+    so that it doesn't necessarily display all similar cases*/
+       
     counter.d = counter.q + 1;
     counter2.d = counter2.q + 2;
   }

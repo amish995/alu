@@ -6,9 +6,11 @@ module shifter (
   ) {
 
   always {
+  
+    /* Case statement only cares about the least two significant bits */
+    
     shift = a; //Do not shift at all
     case (alufn[1:0]) {
-    
       2b00:
         shift = a << b[2:0]; //Perform left shift
       2b01:

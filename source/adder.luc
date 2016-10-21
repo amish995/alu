@@ -12,19 +12,20 @@ module adder (
   
   always {
   
+    //Default s and sum to zero initially
     s = 0;
     sum = 0;
     
     //Pure switch cases for the adder circuit
     case(alufn) {
        6b000000:
-        s = a+b;
+        s = a+b; //Add
         sum = a+b;
        6b000010:
-        s = a*b;
+        s = a*b; //Multiply, carried over from multiplier
         sum = a*b;
        default:
-        s = a-b;
+        s = a-b; //All other cases are assumed subtration for convenience
         sum = a-b;
     }
     

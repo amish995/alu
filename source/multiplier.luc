@@ -1,23 +1,31 @@
 module multiplier (
+
+    //IO declarations, self explanatory
     input a[8],
     input b[8],
     output mul[8],
     input alufn[6],
-    output z,
+    output z, 
     output v,
     output n
   ) {
     sig m[9];
+  
+  /*Seperate multiplier circuit for pure reference. We integrated this with the adder 
+  because it shares the same bits*/
+     
   always {
+  
     m = 0; mul = 0;
     
+    //Lonely switch statement with only a single case  
     case(alufn[3:2]) {
       10:
         mul = a*b;
         m = a*b;
     }
     
-    
+    //Assignments for Z,V and N
     n = m[7];
     
     v = ( a[7] & b[7] & (~m[7])) | 

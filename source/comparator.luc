@@ -7,17 +7,18 @@ module comparator (
   ) {
 
   always { 
-
+    //By default there is no comparison at all
     comp = 0;
   
+    //Switch statement based on the expected inputs
     case (alufn[2:1]) {
     
     2b01:
-        comp[0] = z;
+        comp[0] = z; //pure Z
     2b10:
-        comp[0] = n^v;
+        comp[0] = n^v; //Xor
     2b11: 
-        comp[0] = z | (n^v);
+        comp[0] = z | (n^v); //Or and Xor
     default:
         comp[0] = 0;
       
